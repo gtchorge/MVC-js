@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração de Filmes</title>
+</head>
+<body>
+  <h1>Administração de Filmes</h1>
+  <button onclick="window.location.href='add.html'">Adicionar Filme</button>
+
+  <h2>Filmes Cadastrados</h2>
+  <ul id="movie-list"></ul>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const movieList = document.getElementById('movie-list');
+
+    async function fetchMovies() {
+      const response = await axios.get('/movies');
+      const movies = response.data;
+      movieList.innerHTML = '';
+      movies.forEach(movie => {
+        const listItem = document.createElement('li');
+        const editLink = document.createElement('a');
+        editLink.textContent = `${movie.title} - ${movie.director}`;
+        editLink.href = `edit.html?id=${movie.id}`;
+        listItem.appendChild(editLink);
+        movieList.appendChild(listItem);
+      });
+    }
+
+    fetchMovies();
+  </script>
+</body>
+</html>

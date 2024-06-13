@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filmes</title>
+</head>
+<body>
+  <h1>Filmes</h1>
+  <ul id="movie-list"></ul>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    async function fetchMovies() {
+      const response = await axios.get('/movies');
+      const movies = response.data;
+      const movieList = document.getElementById('movie-list');
+      movies.forEach(movie => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${movie.title} - ${movie.director}`;
+        movieList.appendChild(listItem);
+      });
+    }
+
+    fetchMovies();
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adicionar Filme</title>
+</head>
+<body>
+  <h1>Adicionar Filme</h1>
+  <form id="movie-form">
+    <label for="title">Título:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="director">Diretor:</label><br>
+    <input type="text" id="director" name="director"><br><br>
+    <button type="submit">Adicionar Filme</button>
+  </form>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const movieForm = document.getElementById('movie-form');
+
+    async function addMovie(event) {
+      event.preventDefault();
+      const title = document.getElementById('title').value;
+      const director = document.getElementById('director').value;
+      await axios.post('/movies', { title, director });
+      movieForm.reset();
+      window.location.href = '/admin.html';
+    }
+
+    movieForm.addEventListener('submit', addMovie);
+  </script>
+</body>
+</html>

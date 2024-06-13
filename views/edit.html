@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Filme</title>
+</head>
+<body>
+  <h1>Editar Filme</h1>
+  <form id="edit-form">
+    <label for="title">Título:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="director">Diretor:</label><br>
+    <input type="text" id="director" name="director"><br><br>
+    <button type="submit">Salvar</button>
+  </form>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const editForm = document.getElementById('edit-form');
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('id');
+
+    async function fetchMovie() {
+      try {
+        const response = await axios.get(`/movies/${movieId}`);
+        const movie = response.data;
+        document.getElementById('title').value = movie.title;
+        document.getElementById('director').value = movie.director;
+      } catch (error) {
+        console.error('Error fetching movie:', error);
+        alert('Erro ao carregar o filme. Tente novamente.');
+      }
+    }
+
+    async function updateMovie(event) {
+      event.preventDefault();
+      const title = document.getElementById('title').value;
+      const director = document.getElementById('director').value;
+      try {
+        await axios.put(`/movies/${movieId}`, { title, director });
+        window.location.href = '/admin.html';
+      } catch (error) {
+        console.error('Error updating movie:', error);
+        alert('Erro ao salvar o filme. Tente novamente.');
+      }
+    }
+
+    editForm.addEventListener('submit', updateMovie);
+    fetchMovie(); //carrega os dados do filme ao carregar a página
+  </script>
+</body>
+</html>
